@@ -5,14 +5,21 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
 import stripe
+import json
 
 # Create your views here.
 class HomePageView(TemplateView):
 	template_name = 'home.html'
 
-class SuccessView(TemplateView):
-    template_name = 'success.html'
+def success_view(request):
+    session_id = request.GET['session_id']
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    checkout_data = stripe.checkout.Session.retrieve(session_id)
 
+    with open('checkout_data.json', 'w') as f:
+        json.dump(checkout_data, f)
+
+    return render(request, 'success.html')    
 
 class CancelledView(TemplateView):
     template_name = 'cancelled.html'
@@ -24,25 +31,27 @@ def stripe_config(request):
 		return JsonResponse(stripe_config, safe=False)
 
 @csrf_exempt
-def create_checkout_session(request):
+def create_checkout_session(request, quantity):
     if request.method == 'GET':
         domain_url = 'http://localhost:8000/'
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
             checkout_session = stripe.checkout.Session.create(
+                billing_address_collection='auto',
+                shipping_address_collection={'allowed_countries': ['US', 'CA'],},
                 success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=domain_url + 'cancelled/',
+                cancel_url=domain_url + '',
                 payment_method_types=['card'],
                 mode='payment',
                 line_items=[
                     {
-                        'name': 'T-shirt',
-                        'quantity': 1,
-                        'currency': 'usd',
-                        'amount': '2000',
+                        'quantity': quantity,
+                        'price': 'price_1HIUhDEDp44wgAg5KQlkePWK'
                     }
                 ]
             )
+            #print(checkout_session['id'])
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})
+            
