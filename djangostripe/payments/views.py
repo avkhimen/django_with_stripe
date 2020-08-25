@@ -31,8 +31,9 @@ def stripe_config(request):
 		return JsonResponse(stripe_config, safe=False)
 
 @csrf_exempt
-def create_checkout_session(request, quantity):
-    if request.method == 'GET':
+def create_checkout_session(request):
+    if request.method == 'POST':
+        quantity = json.loads(request.body)['quantity']
         domain_url = 'http://localhost:8000/'
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
@@ -50,7 +51,6 @@ def create_checkout_session(request, quantity):
                     }
                 ]
             )
-            #print(checkout_session['id'])
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})

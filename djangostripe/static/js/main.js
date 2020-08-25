@@ -15,15 +15,11 @@ fetch("/config/")
         document.querySelector("#submitBtn").addEventListener("click", () => {
             // Get Checkout Session ID
             var quantity = document.getElementById("quantity").value;
-            // var data = { 'quantity_test' : quantity };
-            // var data = quantity
-            fetch("/create-checkout-session/" + quantity + "/", {
-                                                                  // method: 'POST', // or 'PUT'
-                                                                  // // headers: {
-                                                                  // //   'Content-Type': 'application/json',
-                                                                  // // },
-                                                                  // body: JSON.stringify(data),
-                                                                })
+            var data = { 'quantity' : quantity };
+            fetch("/create-checkout-session/", {
+                                                method: 'POST',
+                                                headers: {'Content-Type': 'application/json'},
+                                                body: JSON.stringify(data)})
                 .then((result) => {
                     return result.json();
                 })
