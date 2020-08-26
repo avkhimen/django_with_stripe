@@ -7,4 +7,5 @@ urlpatterns = [
     path('create-checkout-session/', views.create_checkout_session),
     path('success/', views.success_view),
     path('cancelled/', views.CancelledView.as_view()),
+     path('customer-service/', views.CustomerSupportView.as_view()),
 ]

@@ -3,6 +3,8 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.views.generic import CreateView
+from .models import Post
 
 import stripe
 import json
@@ -42,16 +44,24 @@ def create_checkout_session(request):
                 shipping_address_collection={'allowed_countries': ['US', 'CA'],},
                 success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url=domain_url + '',
-                payment_method_types=['card'],
+                payment_method_types=['card', 'alipay'],
                 mode='payment',
                 line_items=[
                     {
                         'quantity': quantity,
                         'price': 'price_1HIUhDEDp44wgAg5KQlkePWK'
+                    },
+                    {
+                        'quantity': 1,
+                        'price': 'price_1HIMkfEDp44wgAg5VZWwWt9S'
                     }
                 ]
             )
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})
+
+class CustomerSupportView(CreateView):
+    model = Post
+    fields = ['title', 'content']
             
