@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'payments.apps.PaymentsConfig',
+    'customer_service.apps.CustomerServiceConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +57,7 @@ ROOT_URLCONF = 'djangostripe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,6 +123,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51HHf9REDp44wgAg545kDye2Xm22PX7rOZOjBd9MOKPgIsh3KbNcIBgwLOH23CCOIS2PefTlv3KDstFcyCxkhLMUD00UCt3FuYl'
 STRIPE_SECRET_KEY = 'sk_test_51HHf9REDp44wgAg5kY8WvLOx5OrbUCSLNXw7QyWW79Tavhh6XdksrXNzgU6147OfTemjfnCjkfdWYxv5OMI4NP7A00UC3MZ4E5'

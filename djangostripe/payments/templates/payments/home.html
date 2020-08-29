@@ -1,20 +1,9 @@
 <!-- templates/home.html -->
+{% extends "payments/base.html" %}
 {% load static %}
-
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Django + Stripe Checkout</title>
-  <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"> -->
+{% block content %}
   <script src="https://js.stripe.com/v3/"></script>
   <script src="{% static 'js/main.js' %}"></script>
-  <!--<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script> -->
-</head>
-
-<body>
   <h1>Lets buy some Silverex!</h1>
   <p>Silverex is an anti-bacteril spray that is friendly for your skin and can be re-used indefinitely.</p>
   <section class="section">
@@ -28,6 +17,4 @@
       </div>
     </div>
   </section>
-</body>
-
-</html>
+{% endblock content %}

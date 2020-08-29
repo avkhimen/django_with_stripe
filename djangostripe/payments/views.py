@@ -3,15 +3,13 @@ from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import CreateView
-from .models import Post
 
 import stripe
 import json
 
 # Create your views here.
 class HomePageView(TemplateView):
-	template_name = 'home.html'
+	template_name = 'payments/home.html'
 
 def success_view(request):
     session_id = request.GET['session_id']
@@ -60,8 +58,4 @@ def create_checkout_session(request):
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})
-
-class CustomerSupportView(CreateView):
-    model = Post
-    fields = ['title', 'content']
             
