@@ -34,4 +34,23 @@ fetch("/config/")
                     console.log(res);
                 });
         });
+
+        // new
+        // Event handler
+        document.querySelector("#submitCustomerRequestBtn").addEventListener("click", () => {
+            // Get Checkout Session ID
+            var name = document.getElementById("custName").value;
+            var email = document.getElementById("custEmail").value;
+            var issue = document.getElementById("custIssue").value;
+            var text = document.getElementById("custText").value;
+            var data = { 'name' : name, 'email' : email, 'issue' : issue, 'text' : text};
+            fetch("/send-customer-request/", {
+                                                method: 'POST',
+                                                headers: {'Content-Type': 'application/json'},
+                                                body: JSON.stringify(data)})
+                .then((result) => {
+                    return result.json();
+                })
+        });
+
     });
